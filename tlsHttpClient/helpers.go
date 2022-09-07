@@ -45,7 +45,7 @@ func prepareBody(r *Request) (string, string, bool) {
 		return string(j), "application/json", true
 	}
 	if r.Multipart != nil {
-		return r.MultipartBody.String() + "\n--" + r.Multipart.Boundary() + "--", r.Multipart.FormDataContentType(), true
+		return r.MultipartBody.String() + "\r\n--" + r.Multipart.Boundary() + "--\r\n", r.Multipart.FormDataContentType(), true
 	}
 	return "", "", false
 }
