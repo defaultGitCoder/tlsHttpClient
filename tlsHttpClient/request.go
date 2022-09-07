@@ -128,8 +128,6 @@ func (r *Request) SetQueryString(query string) *Request {
 				r.SetQueryParam(p, pv)
 			}
 		}
-	} else {
-		log.Printf("%v\n", err)
 	}
 	return r
 }

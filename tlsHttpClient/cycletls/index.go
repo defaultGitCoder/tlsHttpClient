@@ -1,7 +1,6 @@
 package cycletls
 
 import (
-	"encoding/json"
 	http "github.com/Danny-Dasilva/fhttp"
 	"github.com/Danny-Dasilva/fhttp/cookiejar"
 	"io"
@@ -45,16 +44,6 @@ type Response struct {
 	StatusCode int
 	Bytes      []byte
 	Text       string
-}
-
-// JSONBody converts response body to json
-func (re Response) JSONBody() map[string]interface{} {
-	var data map[string]interface{}
-	err := json.Unmarshal(re.Bytes, &data)
-	if err != nil {
-		log.Print("Json Conversion failed " + err.Error() + re.Text)
-	}
-	return data
 }
 
 // CycleTLS creates full request and response
@@ -184,7 +173,6 @@ func dispatcher(res fullRequest) (response Response, err error) {
 
 	bodyBytes, err := io.ReadAll(resp.Body)
 	if err != nil {
-		log.Print("Parse Bytes" + err.Error())
 		return response, err
 	}
 
@@ -253,7 +241,6 @@ func (client *CycleTLS) Do(URL string, options Options, Method string) (response
 	res := processRequest(opt)
 	response, err = dispatcher(res)
 	if err != nil {
-		log.Print("Request Failed: " + err.Error())
 		return response, err
 	}
 
@@ -275,7 +262,6 @@ func New(workers ...bool) CycleTLS {
 		reqChan := make(chan fullRequest)
 		respChan := make(chan Response)
 		go workerPool(reqChan, respChan)
-		log.Println("Worker Pool Started")
 
 		return CycleTLS{ReqChan: reqChan, RespChan: respChan, CookieJar: getNewJar()}
 	}
@@ -301,10 +287,7 @@ func workerPool(reqChan chan fullRequest, respChan chan Response) {
 // Worker
 func worker(reqChan chan fullRequest, respChan chan Response) {
 	for res := range reqChan {
-		response, err := dispatcher(res)
-		if err != nil {
-			log.Print("Request Failed: " + err.Error())
-		}
+		response, _ := dispatcher(res)
 		respChan <- response
 	}
 }

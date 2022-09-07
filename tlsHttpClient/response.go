@@ -2,7 +2,6 @@ package tlsHttpClient
 
 import (
 	"github.com/quotpw/tlsHttpClient/tlsHttpClient/cycletls"
-	"log"
 )
 
 type Response struct {
@@ -17,10 +16,7 @@ type Response struct {
 func (r *Response) Json() map[string]any {
 	if r.json == nil {
 		r.json = map[string]any{}
-		err := Unmarshal(r.Bytes, &r.json)
-		if err != nil {
-			log.Print("Json Conversion failed " + err.Error() + r.Text)
-		}
+		Unmarshal(r.Bytes, &r.json)
 	}
 	return r.json
 }
