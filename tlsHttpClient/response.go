@@ -1,8 +1,8 @@
 package tlsHttpClient
 
 import (
+	"github.com/quotpw/tlsHttpClient/tlsHttpClient/cycletls"
 	"log"
-	"tlsHttpClient/tlsHttpClient/cycletls"
 )
 
 type Response struct {

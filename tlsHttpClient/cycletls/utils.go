@@ -2,7 +2,6 @@ package cycletls
 
 import (
 	"crypto/sha256"
-	"encoding/json"
 	"log"
 	"strconv"
 	"strings"
@@ -105,7 +104,7 @@ func StringToSpec(ja3 string, userAgent string) (*utls.ClientHelloSpec, error) {
 	// 	},
 	// }
 
-	// build extenions list
+	// build extensions list
 	var exts []utls.TLSExtension
 	//Optionally Add Chrome Grease Extension
 	if parsedUserAgent == chrome {
@@ -225,12 +224,4 @@ func genMap() (extMap map[string]utls.TLSExtension) {
 	}
 	return
 
-}
-
-func PrettyStruct(data interface{}) (string, error) {
-	val, err := json.MarshalIndent(data, "", "    ")
-	if err != nil {
-		return "", err
-	}
-	return string(val), nil
 }

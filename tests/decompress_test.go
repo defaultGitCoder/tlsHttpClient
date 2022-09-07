@@ -2,13 +2,9 @@ package tests
 
 import (
 	"fmt"
+	"github.com/quotpw/tlsHttpClient/tlsHttpClient"
 	"strings"
 	"testing"
-	"tlsHttpClient/tlsHttpClient"
-)
-
-var (
-	client = tlsHttpClient.New()
 )
 
 type JsonUnmarshalTest struct {

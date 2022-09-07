@@ -7,14 +7,10 @@ import (
 	"time"
 )
 
-// Time wraps time.Time overriddin the json marshal/unmarshal to pass
+// Time wraps time.Time overridden the json marshal/unmarshal to pass
 // timestamp as integer
 type Time struct {
 	time.Time
-}
-
-type data struct {
-	Time Time `json:"time"`
 }
 
 // A Cookie represents an HTTP cookie as sent in the Set-Cookie header of an
@@ -43,7 +39,7 @@ type Cookie struct {
 	Unparsed []string `json:"unparsed"` // Raw text of unparsed attribute-value pairs
 }
 
-// UnmarshalJSON implements json.Unmarshaler inferface.
+// UnmarshalJSON implements json.Unmarshaler interface.
 func (t *Time) UnmarshalJSON(buf []byte) error {
 	// Try to parse the timestamp integer
 	ts, err := strconv.ParseInt(string(buf), 10, 64)
@@ -68,7 +64,7 @@ func (t *Time) UnmarshalJSON(buf []byte) error {
 	return nil
 }
 
-// ParseDateString takes a string and passes it through Approxidate
+// ParseDateString takes a string and passes it through Approximate
 // Parses into a time.Time
 func ParseDateString(dt string) (time.Time, error) {
 	const layout = "Mon, 02-Jan-2006 15:04:05 MST"

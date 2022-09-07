@@ -8,7 +8,7 @@ import (
 	"encoding/base64"
 	"errors"
 	http "github.com/Danny-Dasilva/fhttp"
-	http2 "github.com/Danny-Dasilva/fhttp/http2"
+	"github.com/Danny-Dasilva/fhttp/http2"
 	"golang.org/x/net/proxy"
 	"io"
 	"net"
@@ -95,7 +95,7 @@ func (c *connectDialer) Dial(network, address string) (net.Conn, error) {
 // ContextKeyHeader Users of context.WithValue should define their own types for keys
 type ContextKeyHeader struct{}
 
-// ctx.Value will be inspected for optional ContextKeyHeader{} key, with `http.Header` value,
+// DialContext ctx.Value will be inspected for optional ContextKeyHeader{} key, with `http.Header` value,
 // which will be added to outgoing request headers, overriding any colliding c.DefaultHeader
 func (c *connectDialer) DialContext(ctx context.Context, network, address string) (net.Conn, error) {
 	req := (&http.Request{
@@ -194,8 +194,8 @@ func (c *connectDialer) DialContext(ctx context.Context, network, address string
 			}
 		} else {
 			tlsConf := tls.Config{
-				NextProtos: []string{"h2", "http/1.1"},
-				ServerName: c.ProxyURL.Hostname(),
+				NextProtos:         []string{"h2", "http/1.1"},
+				ServerName:         c.ProxyURL.Hostname(),
 				InsecureSkipVerify: true,
 			}
 			tlsConn, err := tls.Dial(network, c.ProxyURL.Host, &tlsConf)

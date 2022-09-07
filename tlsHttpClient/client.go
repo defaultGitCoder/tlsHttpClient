@@ -2,7 +2,7 @@ package tlsHttpClient
 
 import (
 	"errors"
-	"tlsHttpClient/tlsHttpClient/cycletls"
+	"github.com/quotpw/tlsHttpClient/tlsHttpClient/cycletls"
 )
 
 const (

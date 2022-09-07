@@ -10,7 +10,7 @@ import (
 	"sync"
 
 	http "github.com/Danny-Dasilva/fhttp"
-	http2 "github.com/Danny-Dasilva/fhttp/http2"
+	"github.com/Danny-Dasilva/fhttp/http2"
 	utls "github.com/Danny-Dasilva/utls"
 	"golang.org/x/net/proxy"
 )

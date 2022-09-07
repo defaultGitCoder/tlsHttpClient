@@ -38,7 +38,7 @@ type fullRequest struct {
 	options cycleTLSRequest
 }
 
-// Response contains Cycletls response data
+// Response contains CycleTLS response data
 type Response struct {
 	Headers    map[string]string
 	Cookies    []Cookie
@@ -87,17 +87,17 @@ func processRequest(request cycleTLSRequest) (result fullRequest) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	headerorder := []string{}
+	var headerOrder []string
 	//master header order, all your headers will be ordered based on this list and anything extra will be appended to the end
 	//if your site has any custom headers, see the header order chrome uses and then add those headers to this list
 	if len(request.Options.HeaderOrder) > 0 {
 		//lowercase headers
 		for _, v := range request.Options.HeaderOrder {
-			lowercasekey := strings.ToLower(v)
-			headerorder = append(headerorder, lowercasekey)
+			lowerCaseKey := strings.ToLower(v)
+			headerOrder = append(headerOrder, lowerCaseKey)
 		}
 	} else {
-		headerorder = append(headerorder,
+		headerOrder = append(headerOrder,
 			"host",
 			"connection",
 			"cache-control",
@@ -127,15 +127,14 @@ func processRequest(request cycleTLSRequest) (result fullRequest) {
 		)
 	}
 
-	headermap := make(map[string]string)
-	//TODO: Shorten this
-	headerorderkey := []string{}
-	for _, key := range headerorder {
+	headerMap := make(map[string]string)
+	var headerOrderKey []string
+	for _, key := range headerOrder {
 		for k, v := range request.Options.Headers {
-			lowercasekey := strings.ToLower(k)
-			if key == lowercasekey {
-				headermap[k] = v
-				headerorderkey = append(headerorderkey, lowercasekey)
+			lowerCaseKey := strings.ToLower(k)
+			if key == lowerCaseKey {
+				headerMap[k] = v
+				headerOrderKey = append(headerOrderKey, lowerCaseKey)
 			}
 		}
 
@@ -143,7 +142,7 @@ func processRequest(request cycleTLSRequest) (result fullRequest) {
 
 	//ordering the pseudo headers and our normal headers
 	req.Header = http.Header{
-		http.HeaderOrderKey:  headerorderkey,
+		http.HeaderOrderKey:  headerOrderKey,
 		http.PHeaderOrderKey: {":method", ":authority", ":scheme", ":path"},
 	}
 	//set our Host header
@@ -177,7 +176,9 @@ func dispatcher(res fullRequest) (response Response, err error) {
 			Text:       response,
 		}, err //normally return error here
 	}
-	defer resp.Body.Close()
+	defer func(Body io.ReadCloser) {
+		_ = Body.Close()
+	}(resp.Body)
 
 	encoding := resp.Header["Content-Encoding"]
 

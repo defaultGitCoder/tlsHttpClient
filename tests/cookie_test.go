@@ -1,8 +1,8 @@
-package tests_test
+package tests
 
 import (
+	"github.com/quotpw/tlsHttpClient/tlsHttpClient"
 	"testing"
-	"tlsHttpClient/tlsHttpClient"
 )
 
 var (

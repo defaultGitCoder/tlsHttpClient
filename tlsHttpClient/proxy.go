@@ -14,6 +14,7 @@ type Proxy struct {
 	password *string
 }
 
+//goland:noinspection GoUnusedExportedFunction
 func StringToProxy(strProxy string, scheme string) *Proxy {
 	if scheme == "" {
 		scheme = AvailableSchemas[0]
@@ -42,15 +43,6 @@ func StringToProxy(strProxy string, scheme string) *Proxy {
 	}
 
 	return p
-}
-
-func StringToUrlProxy(strProxy string, scheme string) *string {
-	p := StringToProxy(strProxy, scheme)
-	if p.IsValid() {
-		u := p.ToUrl()
-		return &u
-	}
-	return nil
 }
 
 func (p Proxy) haveAuth() bool {
