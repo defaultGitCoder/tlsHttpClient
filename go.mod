@@ -1,4 +1,4 @@
-module tlsHttpClient
+module github.com/quotpw/tlsHttpClient
 
 go 1.19
 
