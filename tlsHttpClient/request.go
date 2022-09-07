@@ -63,7 +63,7 @@ func (r *Request) ExportHeaders() (map[string]string, string) {
 
 func (r *Request) ExportUrl() string {
 	result := r.URL
-	if len(r.QueryParam) > 0 {
+	if len(r.QueryParam) > 0 || len(r.Client.props.QueryParam) > 0 {
 		if strings.Contains(result, "?") {
 			if !strings.HasSuffix(result, "&") {
 				result += "&"
@@ -73,11 +73,15 @@ func (r *Request) ExportUrl() string {
 		}
 
 		params := url.Values{}
-		for k, v := range r.Client.props.QueryParam {
-			params.Set(k, v)
+		if r.Client.props.QueryParam != nil {
+			for k, v := range r.Client.props.QueryParam {
+				params.Set(k, v)
+			}
 		}
-		for k, v := range r.QueryParam {
-			params.Set(k, v)
+		if r.QueryParam != nil {
+			for k, v := range r.QueryParam {
+				params.Set(k, v)
+			}
 		}
 		result += params.Encode()
 	}
