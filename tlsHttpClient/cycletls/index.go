@@ -154,6 +154,9 @@ func processRequest(request cycleTLSRequest) (result fullRequest) {
 
 func dispatcher(res fullRequest) (response Response, err error) {
 	resp, err := res.client.Do(res.req)
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
 	if err != nil {
 		parsedError := parseError(err)
 		response := parsedError.ErrorMsg + "-> \n" + err.Error()
@@ -163,11 +166,8 @@ func dispatcher(res fullRequest) (response Response, err error) {
 			StatusCode: parsedError.StatusCode,
 			Bytes:      []byte(response),
 			Text:       response,
-		}, err //normally return error here
+		}, err
 	}
-	defer func(Body io.ReadCloser) {
-		_ = Body.Close()
-	}(resp.Body)
 
 	encoding := resp.Header["Content-Encoding"]
 
