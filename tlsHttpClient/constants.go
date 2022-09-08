@@ -9,6 +9,7 @@ var (
 		"User-Agent":      ChromeUserAgent,
 		"Accept-Encoding": "gzip, deflate, br",
 		"Accept":          "*/*",
+		"Connection":      "close",
 	}
 	defaultTimeout         = 10
 	defaultAttempts        = 1
