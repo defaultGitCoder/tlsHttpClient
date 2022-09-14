@@ -27,7 +27,7 @@ type Client struct {
 	Ja3      string
 	Attempts int
 	Timeout  int
-	props    RequestProps
+	Props    RequestProps
 	proxy    *Proxy
 }
 
@@ -39,7 +39,7 @@ func New() *Client {
 		Ja3:      ChromeJA3,
 		Attempts: defaultAttempts,
 		Timeout:  defaultTimeout,
-		props: RequestProps{
+		Props: RequestProps{
 			QueryParam:      map[string]string{},
 			Headers:         newDefaultHeaders(),
 			Cookies:         []cycletls.Cookie{},
@@ -50,7 +50,7 @@ func New() *Client {
 }
 
 func (c *Client) SetDisableRedirect(value bool) *Client {
-	c.props.DisableRedirect = value
+	c.Props.DisableRedirect = value
 	return c
 }
 
@@ -71,7 +71,7 @@ func (c *Client) SetProxy(proxy *Proxy) error {
 }
 
 func (c *Client) SetHeader(header, value string) *Client {
-	c.props.Headers[header] = value
+	c.Props.Headers[header] = value
 	return c
 }
 
@@ -83,7 +83,7 @@ func (c *Client) SetHeaders(headers map[string]string) *Client {
 }
 
 func (c *Client) ReplaceHeaders(headers map[string]string) *Client {
-	c.props.Headers = make(map[string]string)
+	c.Props.Headers = make(map[string]string)
 	c.SetHeaders(headers)
 	return c
 }
@@ -95,7 +95,7 @@ func (c *Client) SetTimeout(timeout int) *Client {
 
 func (c *Client) SetQueryParams(queryParam map[string]string) {
 	for key, value := range queryParam {
-		c.props.QueryParam[key] = value
+		c.Props.QueryParam[key] = value
 	}
 }
 
@@ -111,7 +111,7 @@ func (c *Client) R() *Request {
 		Json:                   nil,
 		Multipart:              nil,
 		MultipartBody:          nil,
-		DisableRedirect:        c.props.DisableRedirect,
+		DisableRedirect:        c.Props.DisableRedirect,
 		SetContentTypeDirectly: false,
 		Proxy:                  c.proxy,
 		Attempts:               c.Attempts,
@@ -152,7 +152,7 @@ func (c *Client) execute(r *Request) (*Response, error) {
 		Cookies:    response.Cookies,
 	}
 	if len(response.Cookies) > 0 {
-		c.props.Cookies = append(c.props.Cookies, responseObj.Cookies...)
+		c.Props.Cookies = append(c.Props.Cookies, responseObj.Cookies...)
 	}
 
 	return responseObj, nil

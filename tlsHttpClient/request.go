@@ -46,7 +46,7 @@ func (r *Request) ExportProxy() string {
 func (r *Request) ExportHeaders() (map[string]string, string) {
 	headers := make(map[string]string)
 
-	for k, v := range r.Client.props.Headers {
+	for k, v := range r.Client.Props.Headers {
 		headers[k] = v
 	}
 	for k, v := range r.Headers {
@@ -63,7 +63,7 @@ func (r *Request) ExportHeaders() (map[string]string, string) {
 
 func (r *Request) ExportUrl() string {
 	result := r.URL
-	if len(r.QueryParam) > 0 || len(r.Client.props.QueryParam) > 0 {
+	if len(r.QueryParam) > 0 || len(r.Client.Props.QueryParam) > 0 {
 		if strings.Contains(result, "?") {
 			if !strings.HasSuffix(result, "&") {
 				result += "&"
@@ -73,8 +73,8 @@ func (r *Request) ExportUrl() string {
 		}
 
 		params := url.Values{}
-		if r.Client.props.QueryParam != nil {
-			for k, v := range r.Client.props.QueryParam {
+		if r.Client.Props.QueryParam != nil {
+			for k, v := range r.Client.Props.QueryParam {
 				params.Set(k, v)
 			}
 		}
