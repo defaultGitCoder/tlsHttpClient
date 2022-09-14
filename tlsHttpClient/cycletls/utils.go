@@ -37,6 +37,8 @@ func DecompressBody(Body []byte, encoding []string) (string, []byte) {
 			bytesDecompressed, err = enflateData(Body)
 		} else if encoding[0] == "br" {
 			bytesDecompressed, err = unBrotliData(Body)
+		} else if encoding[0] == "zstd" {
+			bytesDecompressed, err = unZstdData(Body)
 		}
 	} else {
 		bytesDecompressed = Body

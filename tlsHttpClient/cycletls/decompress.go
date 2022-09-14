@@ -5,6 +5,7 @@ import (
 	"compress/gzip"
 	"compress/zlib"
 	"github.com/andybalholm/brotli"
+	"github.com/klauspost/compress/zstd"
 	"io"
 )
 
@@ -35,4 +36,14 @@ func unBrotliData(data []byte) (resData []byte, err error) {
 	br := brotli.NewReader(bytes.NewReader(data))
 	respBody, err := io.ReadAll(br)
 	return respBody, err
+}
+
+func unZstdData(data []byte) (resData []byte, err error) {
+	zr, err := zstd.NewReader(bytes.NewReader(data))
+	if err != nil {
+		return []byte{}, err
+	}
+	defer zr.Close()
+	enflated, err := io.ReadAll(zr)
+	return enflated, err
 }

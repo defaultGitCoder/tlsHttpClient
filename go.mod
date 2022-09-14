@@ -6,6 +6,7 @@ require (
 	github.com/Danny-Dasilva/fhttp v0.0.0-20220524230104-f801520157d6
 	github.com/Danny-Dasilva/utls v0.0.0-20220604023528-30cb107b834e
 	github.com/andybalholm/brotli v1.0.4
+	github.com/klauspost/compress v1.15.9
 	golang.org/x/net v0.0.0-20220906165146-f3363e06e74c
 )
 
