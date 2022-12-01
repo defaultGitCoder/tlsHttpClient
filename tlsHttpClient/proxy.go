@@ -5,13 +5,13 @@ import (
 )
 
 type Proxy struct {
-	scheme *string
+	Scheme *string
 
-	host *string
-	port *string
+	Host *string
+	Port *string
 
-	username *string
-	password *string
+	Username *string
+	Password *string
 }
 
 //goland:noinspection GoUnusedExportedFunction
