@@ -30,27 +30,27 @@ func StringToProxy(strProxy string, scheme string) *Proxy {
 	}
 
 	p := &Proxy{
-		scheme:   &scheme,
-		host:     &listProxy[0],
-		port:     &listProxy[1],
-		username: nil,
-		password: nil,
+		Scheme:   &scheme,
+		Host:     &listProxy[0],
+		Port:     &listProxy[1],
+		Username: nil,
+		Password: nil,
 	}
 
 	if len(listProxy) >= 4 {
-		p.username = &listProxy[2]
-		p.password = &listProxy[3]
+		p.Username = &listProxy[2]
+		p.Password = &listProxy[3]
 	}
 
 	return p
 }
 
 func (p Proxy) haveAuth() bool {
-	return p.username != nil && p.password != nil
+	return p.Username != nil && p.Password != nil
 }
 
 func (p Proxy) IsValid() bool {
-	return p.scheme != nil && p.host != nil && p.port != nil
+	return p.Scheme != nil && p.Host != nil && p.Port != nil
 }
 
 func (p Proxy) ToUrl() string {
@@ -58,13 +58,13 @@ func (p Proxy) ToUrl() string {
 		panic("Proxy is not valid")
 	}
 
-	url := *p.scheme + "://"
+	url := *p.Scheme + "://"
 
 	if p.haveAuth() {
-		url += *p.username + ":" + *p.password + "@"
+		url += *p.Username + ":" + *p.Password + "@"
 	}
 
-	url += *p.host + ":" + *p.port
+	url += *p.Host + ":" + *p.Port
 
 	return url
 }
