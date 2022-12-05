@@ -53,6 +53,10 @@ func (p Proxy) IsValid() bool {
 	return p.Scheme != nil && p.Host != nil && p.Port != nil
 }
 
+func proxyFieldUrlEncode(field string) string {
+	return strings.Replace(strings.Replace(field, "%", "%25", -1), "#", "%23", -1)
+}
+
 func (p Proxy) ToUrl() string {
 	if !p.IsValid() {
 		panic("Proxy is not valid")
@@ -61,7 +65,7 @@ func (p Proxy) ToUrl() string {
 	url := *p.Scheme + "://"
 
 	if p.haveAuth() {
-		url += *p.Username + ":" + *p.Password + "@"
+		url += proxyFieldUrlEncode(*p.Username) + ":" + proxyFieldUrlEncode(*p.Password) + "@"
 	}
 
 	url += *p.Host + ":" + *p.Port
