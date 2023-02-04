@@ -54,8 +54,11 @@ func (r *Request) ExportHeaders() (map[string]string, string) {
 	}
 
 	userAgent := ChromeUserAgent
-	if val, ok := headers["User-Agent"]; ok {
-		userAgent = val
+	for k, v := range headers {
+		if strings.ToLower(k) == "user-agent" {
+			userAgent = v
+			break
+		}
 	}
 
 	return headers, userAgent
